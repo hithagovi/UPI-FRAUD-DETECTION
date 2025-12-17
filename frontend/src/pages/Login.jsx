@@ -4,6 +4,8 @@ import { Shield, Mail, Lock, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import { loginUser } from "../api/auth";      
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Login = ({ onLogin }) => {
   const [isRegister, setIsRegister] = useState(false);
@@ -36,6 +38,7 @@ const Login = ({ onLogin }) => {
   };
 
   return (
+    
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 p-4">
       <div className="w-full max-w-md">
         <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-8 shadow-2xl border border-white/20">
@@ -141,5 +144,4 @@ const Login = ({ onLogin }) => {
     </div>
   );
 };
-
 export default Login;

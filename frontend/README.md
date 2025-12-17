@@ -68,3 +68,24 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Local Auth
+
+For local development you can either run the frontend against a running backend, or bypass authentication entirely.
+
+- To point the frontend to a backend, set `REACT_APP_BACKEND_URL` to your backend base URL (no trailing `/api`). Example in PowerShell:
+
+```powershell
+$env:REACT_APP_BACKEND_URL='http://localhost:8000'
+npm start
+```
+
+- To bypass authentication (useful if you don't want to run the backend), set `REACT_APP_DISABLE_AUTH=true`. The app will create a local dev user and navigate to the dashboard automatically.
+
+Add to `.env.local` in the `frontend` folder or export in your shell:
+
+```
+REACT_APP_DISABLE_AUTH=true
+```
+
+If you later want to test real login/signup flows, point `REACT_APP_BACKEND_URL` at your backend and ensure the backend exposes `/api/auth/login`, `/api/auth/register`, and `/api/auth/me`.

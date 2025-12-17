@@ -80,3 +80,10 @@ agenthub/agents/youtube/db
 android-sdk/ frontend/node_modules/.cache/default-development/4.pack
 frontend/node_modules/.cache/default-development/4.pack
 frontend/node_modules/.cache/default-development/0.pack
+.venv/Lib/site-packages/llvmlite/binding/llvmlite.dll
+.venv/Lib/site-packages/xgboost/lib/xgboost.dll
+.venv/Lib/site-packages/~gboost/lib/xgboost.dll
+frontend/node_modules/.cache/default-development/3.pack
+frontend/node_modules/.cache/default-development/6.pack
+venv/Lib/site-packages/llvmlite/binding/llvmlite.dll
+venv/Lib/site-packages/xgboost/lib/xgboost.dll

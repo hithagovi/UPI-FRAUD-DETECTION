@@ -1,0 +1,6 @@
+amount,sender,receiver,is_fraud
+100,alice,bob,0
+5000,charlie,david,1
+250,eve,frank,0
+8000,grace,henry,1
+150,iris,jack,0

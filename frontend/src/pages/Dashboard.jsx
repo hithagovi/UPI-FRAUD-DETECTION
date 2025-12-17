@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { axiosInstance } from '@/App';
+const DISABLE_AUTH = process.env.REACT_APP_DISABLE_AUTH === 'true';
 import { AlertTriangle, Shield, Activity, TrendingUp, Upload, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -35,6 +36,23 @@ const Dashboard = ({ user }) => {
   const onDrop = async (acceptedFiles) => {
     const file = acceptedFiles[0];
     if (!file) return;
+    // If auth/backend is disabled for local dev, mock the upload flow
+    if (DISABLE_AUTH) {
+      setUploading(true);
+      // lightweight mock: create a fake uploadedDataset entry
+      setTimeout(() => {
+        const mock = {
+          id: `local-${Date.now()}`,
+          filename: file.name,
+          rows: 100,
+          columns: ['col1', 'col2', 'is_fraud'],
+        };
+        setUploadedDataset(mock);
+        toast.success('Dataset uploaded (mock)');
+        setUploading(false);
+      }, 500);
+      return;
+    }
 
     setUploading(true);
     const formData = new FormData();
@@ -65,6 +83,16 @@ const Dashboard = ({ user }) => {
 
     setTraining(true);
     try {
+      if (DISABLE_AUTH && String(uploadedDataset.id).startsWith('local-')) {
+        // mock training delay
+        await new Promise((res) => setTimeout(res, 500));
+        toast.success('Model trained (mock)');
+        setUploadedDataset(null);
+        fetchDashboardData();
+        setTraining(false);
+        return;
+      }
+
       await axiosInstance.post(`/datasets/${uploadedDataset.id}/train?model_type=xgboost`);
       toast.success('Model trained successfully!');
       setUploadedDataset(null);

@@ -10,7 +10,28 @@ import BlockManagement from '@/pages/BlockManagement';
 import Layout from '@/components/Layout';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-export const API = `${BACKEND_URL}/api`;
+const DISABLE_AUTH = process.env.REACT_APP_DISABLE_AUTH === 'true';
+export const API = BACKEND_URL ? `${BACKEND_URL}/api` : '';
+
+export async function registerUser(data) {
+  const res = await fetch(`${BASE_URL}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  return res.json();
+}
+
+export async function loginUser(data) {
+  const res = await fetch(`${BASE_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  return res.json();
+}
 
 export const axiosInstance = axios.create({
   baseURL: API,
@@ -24,12 +45,21 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (DISABLE_AUTH) {
+      // Bypass authentication for local/dev when explicitly disabled.
+      setUser({ name: 'Local Dev', role: 'admin' });
+      setIsAuthenticated(true);
+      setLoading(false);
+      return;
+    }
+
     checkAuth();
   }, []);
 
